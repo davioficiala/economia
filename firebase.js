@@ -1,3 +1,5 @@
+// firebase.js
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
 
 import {
@@ -35,4 +37,4 @@ window.updateDoc = updateDoc;
 window.deleteDoc = deleteDoc;
 window.doc = doc;
 
-console.log("✅ Firebase conectado com sucesso!");
+console.log("✅ Firebase conectado!");
