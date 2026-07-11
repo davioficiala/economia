@@ -1,1 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brain Orçamento</title>
 
+<link rel="stylesheet" href="style.css">
+
+<script type="module" src="firebase.js"></script>
+<script defer src="app.js"></script>
+
+</head>
+<body>
+
+<header>
+
+<h2>💰 Brain Orçamento</h2>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h3>Entrada</h3>
+
+<input
+type="number"
+id="entrada"
+placeholder="Digite sua entrada">
+
+<button onclick="calcular()">
+Calcular
+</button>
+
+</div>
+
+<div class="card">
+
+<h3>Resumo</h3>
+
+<p>🛡️ Emergência</p>
+
+<h2 id="emergencia">
+R$0,00
+</h2>
+
+<p>📈 Investimentos</p>
+
+<h2 id="investimentos">
+R$0,00
+</h2>
+
+<p>💳 Gastos</p>
+
+<h2 id="gastos">
+R$0,00
+</h2>
+
+</div>
+
+<div class="card">
+
+<h3>Investimentos</h3>
+
+<p>Ações</p>
+
+<input
+type="number"
+id="acoes">
+
+<p>Day Trader</p>
+
+<input
+type="number"
+id="trader">
+
+<p>Dividendos</p>
+
+<input
+type="number"
+id="dividendos">
+
+<button onclick="salvarInvestimentos()">
+Salvar
+</button>
+
+</div>
+
+<div class="card">
+
+<h3>Operação Day Trader</h3>
+
+<input
+type="number"
+id="capital"
+placeholder="Capital">
+
+<input
+type="number"
+id="resultado"
+placeholder="Lucro ou prejuízo">
+
+<button onclick="finalizarTrader()">
+Finalizar Operação
+</button>
+
+<h2 id="saldoTrader">
+R$0,00
+</h2>
+
+</div>
+
+<div class="card">
+
+<h3>Dashboard</h3>
+
+<p>Entrada</p>
+
+<span id="dEntrada"></span>
+
+<p>Emergência</p>
+
+<span id="dEmergencia"></span>
+
+<p>Investimentos</p>
+
+<span id="dInvestimentos"></span>
+
+<p>Gastos</p>
+
+<span id="dGastos"></span>
+
+<p>Saldo Trader</p>
+
+<span id="dTrader"></span>
+
+</div>
+
+</div>
+
+</body>
+</html>
