@@ -8,12 +8,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Brain Orçamento</title>
+<title>💰 Brain Orçamento</title>
 
 <link rel="stylesheet" href="style.css">
 
 <script type="module" src="firebase.js"></script>
-
 <script defer src="app.js"></script>
 
 </head>
@@ -22,38 +21,32 @@
 
 <header>
 
-<h2>💰 Brain Orçamento</h2>
+<h1>💰 Brain Orçamento</h1>
 
 </header>
 
 <div class="container">
 
-<!-- Entrada -->
-
 <div class="card">
 
-<h3>Entrada Financeira</h3>
+<h2>Nova Entrada</h2>
 
 <input
 type="number"
 id="entrada"
 placeholder="Digite o valor da entrada">
 
-<button onclick="calcular()">
-
-Calcular
-
+<button onclick="salvarFinanceiro()">
+Salvar
 </button>
 
 </div>
 
-<!-- Resumo -->
-
 <div class="card">
 
-<h3>Resumo Financeiro</h3>
+<h2>Resumo</h2>
 
-<p>🛡️ Reserva Emergência</p>
+<p>🛡️ Reserva de Emergência</p>
 
 <h2 id="emergencia">R$ 0,00</h2>
 
@@ -67,120 +60,41 @@ Calcular
 
 </div>
 
-<!-- Investimentos -->
+<div class="card">
+
+<h2>📷 Scanner de Produto</h2>
+
+<button onclick="abrirScanner()">
+
+Abrir Scanner
+
+</button>
+
+<div id="scanner"></div>
+
+<p id="codigoLido"></p>
+
+</div>
 
 <div class="card">
 
-<h3>Distribuição dos Investimentos</h3>
+<h2>📦 Produto Encontrado</h2>
 
-<label>Ações</label>
+<p id="produtoNome">Nenhum produto</p>
 
-<input
-type="number"
-id="acoes"
-placeholder="Valor em ações">
+<p id="produtoValor"></p>
 
-<label>Day Trade</label>
+<button onclick="comprarProduto()">
 
-<input
-type="number"
-id="trader"
-placeholder="Valor para Day Trade">
-
-<label>Dividendos</label>
-
-<input
-type="number"
-id="dividendos"
-placeholder="Dividendos">
-
-<button onclick="salvarInvestimentos()">
-
-Salvar Investimentos
+Comprar Produto
 
 </button>
 
 </div>
 
-<!-- Day Trade -->
-
 <div class="card">
 
-<h3>Operação Day Trade</h3>
-
-<input
-type="number"
-id="capital"
-placeholder="Capital utilizado">
-
-<input
-type="number"
-id="resultado"
-placeholder="Lucro (+) ou Prejuízo (-)">
-
-<button onclick="finalizarTrader()">
-
-Finalizar Operação
-
-</button>
-
-<h2 id="saldoTrader">
-
-R$ 0,00
-
-</h2>
-
-</div>
-
-<!-- Dashboard -->
-
-<div class="card">
-
-<h3>Dashboard</h3>
-
-<p>Entrada</p>
-
-<span id="dEntrada"></span>
-
-<p>Emergência</p>
-
-<span id="dEmergencia"></span>
-
-<p>Investimentos</p>
-
-<span id="dInvestimentos"></span>
-
-<p>Gastos</p>
-
-<span id="dGastos"></span>
-
-<p>Saldo Trader</p>
-
-<span id="dTrader"></span>
-
-</div>
-
-<!-- Carteira -->
-
-<div class="card">
-
-<h3>📈 Carteira de Ações</h3>
-
-<button onclick="comprarAcao()">
-
-Comprar Ação
-
-</button>
-
-<div id="listaAcoes"></div>
-
-</div>
-
-<!-- Histórico -->
-
-<div class="card">
-
-<h3>📋 Histórico Financeiro</h3>
+<h2>📋 Histórico</h2>
 
 <div id="lista"></div>
 
