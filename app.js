@@ -1,70 +1,60 @@
 // app.js
 
-let investimentos = 0;
-
-function moeda(valor) {
-    return "R$ " + Number(valor).toLocaleString("pt-BR", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
+function moeda(valor){
+    return Number(valor).toLocaleString("pt-BR",{
+        style:"currency",
+        currency:"BRL"
     });
 }
 
-function calcular() {
+async function salvarFinanceiro(){
 
     const entrada = Number(document.getElementById("entrada").value);
 
-    if (entrada <= 0) {
-        alert("Digite um valor válido.");
+    if(entrada <= 0){
+        alert("Digite uma entrada.");
         return;
     }
 
     const emergencia = entrada * 0.20;
-    investimentos = entrada * 0.30;
+    const investimentos = entrada * 0.30;
     const gastos = entrada * 0.50;
 
     document.getElementById("emergencia").innerHTML = moeda(emergencia);
     document.getElementById("investimentos").innerHTML = moeda(investimentos);
     document.getElementById("gastos").innerHTML = moeda(gastos);
 
-    document.getElementById("dEntrada").innerHTML = moeda(entrada);
-    document.getElementById("dEmergencia").innerHTML = moeda(emergencia);
-    document.getElementById("dInvestimentos").innerHTML = moeda(investimentos);
-    document.getElementById("dGastos").innerHTML = moeda(gastos);
-}
+    try{
 
-async function salvarInvestimentos() {
+        await window.addDoc(
 
-    try {
+            window.collection(window.db,"dados"),
 
-        const dados = {
+            {
 
-            entrada: Number(document.getElementById("entrada").value),
+                tipo:"financeiro",
 
-            emergencia: document.getElementById("emergencia").innerText,
+                entrada:entrada,
 
-            investimentos: document.getElementById("investimentos").innerText,
+                emergencia:emergencia,
 
-            gastos: document.getElementById("gastos").innerText,
+                investimentos:investimentos,
 
-            acoes: Number(document.getElementById("acoes").value),
+                gastos:gastos,
 
-            trader: Number(document.getElementById("trader").value),
+                data:new Date()
 
-            dividendos: Number(document.getElementById("dividendos").value),
+            }
 
-            data: new Date()
+        );
 
-        };
-
-        await addDoc(collection(db, "financeiro"), dados);
-
-        alert("Dados salvos com sucesso!");
+        alert("✅ Salvo com sucesso!");
 
         listar();
 
-    } catch (erro) {
+    }catch(e){
 
-        console.log(erro);
+        console.log(e);
 
         alert("Erro ao salvar.");
 
@@ -72,65 +62,57 @@ async function salvarInvestimentos() {
 
 }
 
-async function listar() {
+async function listar(){
 
-    const lista = document.getElementById("lista");
+    const lista=document.getElementById("lista");
 
-    if (!lista) return;
+    if(!lista) return;
 
-    lista.innerHTML = "";
+    lista.innerHTML="";
 
-    const query = await getDocs(collection(db, "financeiro"));
+    const dados=await window.getDocs(
 
-    query.forEach((doc) => {
+        window.collection(window.db,"dados")
 
-        const d = doc.data();
+    );
 
-        lista.innerHTML += `
+    dados.forEach((doc)=>{
 
-        <div class="card">
+        const d=doc.data();
 
-        <h3>${d.data.toDate().toLocaleString()}</h3>
+        if(d.tipo==="financeiro"){
 
-        Entrada: ${moeda(d.entrada)}<br>
+            lista.innerHTML+=`
 
-        Emergência: ${d.emergencia}<br>
+            <div class="item">
 
-        Investimentos: ${d.investimentos}<br>
+            <b>Entrada:</b> ${moeda(d.entrada)}<br>
 
-        Gastos: ${d.gastos}<br>
+            🛡️ ${moeda(d.emergencia)}<br>
 
-        Ações: ${moeda(d.acoes)}<br>
+            📈 ${moeda(d.investimentos)}<br>
 
-        Trader: ${moeda(d.trader)}<br>
+            💳 ${moeda(d.gastos)}
 
-        Dividendos: ${moeda(d.dividendos)}
+            </div>
 
-        </div>
+            `;
 
-        `;
+        }
 
     });
 
 }
 
-function finalizarTrader() {
+function abrirScanner(){
 
-    const capital = Number(document.getElementById("capital").value);
+    alert("Scanner será conectado na próxima etapa.");
 
-    const resultado = Number(document.getElementById("resultado").value);
+}
 
-    const saldo = capital + resultado;
+function comprarProduto(){
 
-    investimentos = investimentos - capital + saldo;
-
-    document.getElementById("saldoTrader").innerHTML = moeda(saldo);
-
-    document.getElementById("investimentos").innerHTML = moeda(investimentos);
-
-    document.getElementById("dInvestimentos").innerHTML = moeda(investimentos);
-
-    document.getElementById("dTrader").innerHTML = moeda(saldo);
+    alert("Compra de produto será adicionada na próxima etapa.");
 
 }
 
