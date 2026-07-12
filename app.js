@@ -1,3 +1,4 @@
+
 // app.js
 
 function moeda(valor){
@@ -7,11 +8,15 @@ function moeda(valor){
     });
 }
 
+// =======================
+// Salvar Financeiro
+// =======================
+
 async function salvarFinanceiro(){
 
     const entrada = Number(document.getElementById("entrada").value);
 
-    if(entrada <= 0){
+    if(entrada<=0){
         alert("Digite uma entrada.");
         return;
     }
@@ -27,25 +32,15 @@ async function salvarFinanceiro(){
     try{
 
         await window.addDoc(
-
             window.collection(window.db,"dados"),
-
             {
-
                 tipo:"financeiro",
-
-                entrada:entrada,
-
-                emergencia:emergencia,
-
-                investimentos:investimentos,
-
-                gastos:gastos,
-
+                entrada,
+                emergencia,
+                investimentos,
+                gastos,
                 data:new Date()
-
             }
-
         );
 
         alert("✅ Salvo com sucesso!");
@@ -55,44 +50,45 @@ async function salvarFinanceiro(){
     }catch(e){
 
         console.log(e);
-
         alert("Erro ao salvar.");
 
     }
 
 }
 
+// =======================
+// Histórico
+// =======================
+
 async function listar(){
 
-    const lista=document.getElementById("lista");
+    const lista = document.getElementById("lista");
 
     if(!lista) return;
 
-    lista.innerHTML="";
+    lista.innerHTML = "";
 
-    const dados=await window.getDocs(
-
+    const dados = await window.getDocs(
         window.collection(window.db,"dados")
-
     );
 
     dados.forEach((doc)=>{
 
-        const d=doc.data();
+        const d = doc.data();
 
         if(d.tipo==="financeiro"){
 
-            lista.innerHTML+=`
+            lista.innerHTML += `
 
             <div class="item">
 
             <b>Entrada:</b> ${moeda(d.entrada)}<br>
 
-            🛡️ ${moeda(d.emergencia)}<br>
+            🛡️ Emergência: ${moeda(d.emergencia)}<br>
 
-            📈 ${moeda(d.investimentos)}<br>
+            📈 Investimentos: ${moeda(d.investimentos)}<br>
 
-            💳 ${moeda(d.gastos)}
+            💳 Gastos: ${moeda(d.gastos)}
 
             </div>
 
@@ -104,16 +100,122 @@ async function listar(){
 
 }
 
+// =======================
+// Scanner
+// =======================
+
 function abrirScanner(){
 
-    alert("Scanner será conectado na próxima etapa.");
+    alert("Scanner conectado na próxima etapa.");
 
 }
 
-function comprarProduto(){
+// =======================
+// Comprar Produto
+// =======================
 
-    alert("Compra de produto será adicionada na próxima etapa.");
+async function comprarProduto(){
+
+    const nome = document.getElementById("produtoNome").innerText;
+
+    const valorTexto = document.getElementById("produtoValor").innerText
+    .replace("R$","")
+    .replace(",",".")
+    .trim();
+
+    const valor = Number(valorTexto);
+
+    if(!nome || valor<=0){
+
+        alert("Nenhum produto selecionado.");
+
+        return;
+
+    }
+
+    try{
+
+        await window.addDoc(
+
+            window.collection(window.db,"dados"),
+
+            {
+
+                tipo:"compra",
+
+                produto:nome,
+
+                valor:valor,
+
+                data:new Date()
+
+            }
+
+        );
+
+        alert("Compra registrada!");
+
+        listarCompras();
+
+    }catch(e){
+
+        console.log(e);
+
+    }
 
 }
+
+// =======================
+// Lista Compras
+// =======================
+
+async function listarCompras(){
+
+    const lista = document.getElementById("listaCompras");
+
+    if(!lista) return;
+
+    let total = 0;
+
+    lista.innerHTML = "";
+
+    const consulta = await window.getDocs(
+        window.collection(window.db,"dados")
+    );
+
+    consulta.forEach((doc)=>{
+
+        const d = doc.data();
+
+        if(d.tipo==="compra"){
+
+            total += Number(d.valor);
+
+            lista.innerHTML += `
+
+            <div class="item">
+
+            🛒 ${d.produto}<br>
+
+            ${moeda(d.valor)}
+
+            </div>
+
+            `;
+
+        }
+
+    });
+
+    document.getElementById("totalCompras").innerHTML =
+    moeda(total);
+
+}
+
+// =======================
+// Inicialização
+// =======================
 
 listar();
+
+listarCompras();
